@@ -1,16 +1,15 @@
-const router = require('express').Router();
+ const router = require('express').Router();
 const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
 router.get('/', (req, res) => {
-  // find all tags
-  // be sure to include its associated Product data
   Tag.findAll({
     include: [
       {
           model: Product, 
-          attributes: ['product_name']
+          through: ProductTag, 
+          as: 'tagged_product'
       }
   ]
   })
@@ -31,7 +30,8 @@ router.get('/:id', (req, res) => {
     include: [
       {
           model: Product, 
-          attributes: ['product_name']
+          through: ProductTag, 
+          as: 'tagged_product'
       }
   ]
   })
